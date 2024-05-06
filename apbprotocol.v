@@ -1,0 +1,17 @@
+module apbprotocol(
+    input PCLK,PRESETn,PENABLE,PWRITE,
+    input cs,PSEL1,PSEL2,
+    input   [63:0] PADDR,PWDATA,
+    output   [63:0] PRDATA,
+    output   PREADY,slverr);
+    
+wire [63:0] PRDATA1,PRDATA2,PRDATA3,PRDATA4;
+wire slverr1,slverr2,slverr3,slverr4,PREADY1,PREADY2,PREADY3,PREADY4;
+   slave1 s1  (PCLK,PRESETn,cs,PSEL1,PSEL2,PENABLE,PWRITE,PADDR,PWDATA, PRDATA1,PREADY1,slverr1);
+   slavetwo s2(PCLK,PRESETn,cs,PSEL1,PSEL2,PENABLE,PWRITE,PADDR,PWDATA, PRDATA2,PREADY2,slverr2);
+   slavethree s3 (PCLK,PRESETn,cs,PSEL1,PSEL2,PENABLE,PWRITE,PADDR,PWDATA, PRDATA3,PREADY3,slverr3);
+   slavefour s4 (PCLK,PRESETn,cs,PSEL1,PSEL2,PENABLE,PWRITE,PADDR,PWDATA, PRDATA4,PREADY4,slverr4);
+ assign  PRDATA = PRDATA1|PRDATA2|PRDATA3|PRDATA4;
+  assign PREADY =PREADY1|PREADY2|PREADY3|PREADY4;
+  assign slverr=slverr1|slverr2|slverr3|slverr4;
+endmodule
